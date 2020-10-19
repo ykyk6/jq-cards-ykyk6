@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color:#231815;
+           
+        }
+        #main{
+           width: 100vw;
+           height: 100vh;
+           margin: auto;
+        }
+        #left{
+            width: 260px;
+            height:100vh;
+            float: left;
+            background-color: #231815;
+            background-image: url(./images/background2.png);
+            background-repeat: repeat-y;
+        }
+        #center{
+            margin-left: 260px;
+            margin-right: 300px;
+            height:100vh;
+            text-align:center;
+            background-color: 231815;
+            background-image: url(./images/background.jpg);
+            background-repeat:no-repeat;
+           background-position: center;
+           background-size: cover;
+           position: relative;
+           float: inherit;
+         
+        }
+        #right{
+            width: 300px;
+            height:  100vh;
+            float: right;
+            background-color:  #231815;
+            background-image: url(./images/background2.png);
+            background-repeat: repeat-y;
+            
+        }
+        #ghostarea{
+            height: 75vh;
+        }
+        #ghosttext{
+            height: 25vh;
+            text-align: center;
+            color: white;
+            font-size: 20px;
+            position: relative;
+        }
+        #ghostcountstext{ 
+            font-size: 30px;
+        }
+        #textborder{
+            width: 200px;
+            height: 100px;
+            border: 1px solid rgb(255, 121, 32);
+            position: absolute;
+            left: 10%;
+            
+        }
+        #game{
+            width: 550px;
+            height: 630px;
+            float: left;
+           
+        }
+
+        .card{
+            width: 80px;
+            height:  112px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: all 0.5s;
+            float: left;
+            top: 120px;
+            left: 160px;
+            
+        }
+        .front{
+            width: 100%;
+             height: 100%;
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: absolute;
+
+        }
+        .back{
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-image: url(./card/back.jpg);
+            position: absolute;
+            transform: rotateY(180deg)
+        }
+        .close {
+         transform: rotateY(180deg);
+        }
+
+       .close {
+         transform: rotateY(180deg);
+        }
+        table{
+            width: 97%;
+           height: 100%;
+           border: 1px solid rgba(221, 220, 220,0.5);
+          
+        }
+      
+        td:hover{
+            background-color:  #9c9998 ;
+        }
+        td{
+
+            font-size: 35px;
+            height: 90px;
+            color: white;
+            text-align: center;
+            line-height: 90px;
+            border: 1px solid rgba(221, 220, 220,0.5);
+            cursor: pointer;
+           
+        }
+        .active{
+            background-color:  #E95504;
+            
+        }
+        #ruleText{
+            position: absolute;
+            display: none;
+            width: 680px;
+            height: 520px;
+            font-size: 33px;
+            color: rgb(7, 6, 6);
+            background-color:transparent ;
+            text-align: center; 
+            top: 12%;
+            left: 10%; 
+        }
+        h3{ 
+            color: brown;
+             text-align: center;
+           text-shadow: 0 10px 10px rgb(136, 99, 99);
+        }  
+      #star{
+          background-image: url(./images/star.png);
+      }
+      #ghostmove{
+          width: 150px;
+          height: 80px;
+      }
+      #ghostmove2{
+          line-height: 120px;
+      }
+      .pe{pointer-events: none;}
+    </style>
+</head>
+<body>
+<div id="main">
+    <div id="left">
+        <table >
+            <tr>
+                <td id="rule">規則</td>
+               
+            </tr>
+            <tr>
+                <td id="btn-start" class="btn-start2">開始遊戲</td>
+               
+            </tr>
+            <tr>
+                <td id="btn-hint"> 提示</td>
+               
+            </tr>
+            <tr >
+                <td >剩餘<span style="color: brown;"id="timeleft"></span>秒</td>
+               
+            </tr>
+            <tr>
+                <td> <img src="./images/sugar.png" width="63"  height="50">：<span style="color: brown;"id="score"></span></td>
+               
+            </tr>
+
+            
+        </table>
+
+    </div>
+    <div id="right">
+        <div id="ghostarea">
+            <p id="ghostmove2"><img src="./images/ghostmove.gif" alt="" id="ghostmove"><br/>
+            <img src="./images/ghostmove.gif" alt="" id="ghostmove"><br/>
+            <img src="./images/ghostmove.gif" alt="" id="ghostmove"></p></div>
+        <div id="ghosttext">
+            <div id="textborder">
+        目前ghost數<br/>
+        <p ><span id="ghostcountstext"></span></p>
+    </div>
+        
+    </div>
+    </div>
+    <div id="center">
+   <div id="game">
+   </div> 
+   <div id="ruleText">
+    <h3>翻牌遊戲<br/>(不給糖就搗蛋)</h3>
+  
+    <span>◇遊戲一開始會在右邊配置4個ghost，當翻到兩張一樣的牌時，可將一個ghost變成糖果。</span>
+    <br/>
+    <span>◆遊戲開始10秒後，每5秒會多生成1個ghost。</span>
+    <br/>
+    <span style="text-align:left">◇時間總共70秒，需在時間內將所有ghost變成糖果，否則就輸了！</span>
+
+ </div>
+   <!-- <div id="ruleText">
+   </div> -->
+</div>
+</div>
+    <script src="./jquery-3.5.1.min.js"></script>
+    <script src="./sweetalert2.all.min.js"></script>
+    <script>
+        let gametimer = 0;
+        let timeleft=70;
+        let score=0;
+        let InGame=false; 
+        let ghostimer=0;
+        let ghostcountstext=4;
+        let i=0;
+        
+
+        // 預設畫面是遊戲規則
+        $('#ruleText').hide()
+        $('#game').show()
+
+        // 點擊為橘色
+        $('tr').click(function(){ 
+            $(this).find('td').addClass('active').parent().siblings().find('td').removeClass('active');
+        })
+        // 點規則
+         $('#rule').click(function(){
+        $('#game').hide()
+        $('#ruleText').show()
+        })
+
+    // 生成24張
+    for(i=0;i<24;i++){
+             $('#game').append(`<div class="card close"> 
+             <div class="back"></div>
+               <div class="front"></div> 
+                </div> `)
+        }
+        
+
+        // 點遊戲開始
+        $('#btn-start').click(function(){
+            $(this).text('遊戲進行中');
+            $(this).addClass('pe').parent().siblings().find('td').eq(0).addClass('pe').css('color','gray');
+            // $(this).addClass('pe');
+            $(this).css('backgroundColor',' #E95504')
+            $('#ruleText').hide();
+            $('#ghostmove2').hide();
+            $('#game').show();
+            
+             inGame=true;
+
+         // 延遲0.5s生成4 ghost&印出ghost數量
+         setTimeout(()=>{  
+             for(i=0;i<4;i++){
+             $('#ghostarea').append(`<img src="./images/ghost1.png" id="ghost${i}" >`);  
+             $('#ghostcountstext').text(ghostcountstext); }
+        },500)
+      
+        
+        //  第10秒後每5秒生成一ghost
+        // 紀錄生成數量
+        let id=4
+        ghostcountstext=4;
+        setTimeout(()=>{
+         ghostimer=setInterval(()=>{
+             $('#ghostarea').append(`<img src="./images/ghost1.png" id="ghost${id}" >`);
+             id++ ;
+              //   每+1ghost數量就印出來
+             ghostcountstext++; 
+             $('#ghostcountstext').text(ghostcountstext)
+              },5000)
+         },6000)
+    
+        //  遊戲開始配置分數&剩餘時間
+        score=0;
+        $('#score').text(score);
+        timeleft=70;
+        $('#timeleft').text(timeleft);
+        
+        // 延遲0.5s
+        // 計算剩餘時間
+        setTimeout(()=>{
+        gametimer=setInterval(()=>{ 
+            timeleft--;
+                $("#timeleft").text(timeleft);
+       
+            // 時間結束
+            if (timeleft === 0 ||$('.finish').length==$('.card').length) {
+            clearInterval(gametimer);
+            clearInterval( ghostimer);
+            $(this).removeClass('pe').parent().siblings().find('td').eq(0).removeClass('pe').css('color','white');
+            
+        
+        setTimeout(() => {
+        if($('.finish').length==$('.card').length){
+        Swal.fire({
+         imageUrl: './images/success2.png',
+         imageHeight: 300,
+         imageAlt: 'clear'})}
+         else{ 
+        Swal.fire({
+         imageUrl: './images/lose.png',
+         imageHeight: 300,
+         imageAlt: 'lose'})}
+
+            // alert("時間到");
+              $(this).text('開始遊戲')
+              $(this).css('backgroundColor','transparent')
+            }, 1000); 
+          } 
+         },1000)
+          
+          },500)
+
+          
+       
+        //  在卡片正面+圖案&配編號
+        for(let i=0;i<$('.card').length;i++){
+            let add=i % ( $(".card").length / 2 ) + 1;
+            $('.card').eq(i).find('.front').css("background-image", `url(./card/card${add}.jpg)`);
+            $('.card').eq(i).attr('data-card',add)
+             
+             let target=Math.floor(Math.random()*$('.card').length)
+             $('.card').eq(target).insertAfter($('.card').eq(i))
+      
+            }
+
+            
+        //  翻牌部分
+        $("#game").on("click", ".card", function(){
+            let random=Math.floor(Math.random() *id);
+           if( $('.card:not(.close)').length < 2  ){
+                $(this).removeClass("close");}
+            // 翻到一樣的
+           if( $('.card:not(.close)').length == 2) {
+           if( $('.card:not(.close)').eq(0).attr('data-card') == $('.card:not(.close)').eq(1).attr('data-card')) {
+           $(".card:not(.close)").animate({ right: "200px" }).fadeTo(500, 0).addClass('finish');
+           $(`#ghost${random}`).attr("src", "./images/sugar1.png");
+           
+           score++;
+           ghostcountstext--; 
+          
+            } 
+             }
+          
+           if( $('.card:not(.close)').length == 2) {
+           setTimeout(() => {
+           $('.card:not(.close)').addClass('close')
+           }, 1000);
+           }
+
+           
+         
+           $("#score").text(score);
+           $("#ghostcountstext").text(ghostcountstext);
+            })
+
+            // 隨機提示2張
+            $('#btn-hint').click(function(){
+                $(this).addClass('pe');  
+                let open1=Math.floor(Math.random() *$('.card').length)
+               let open2=Math.floor(Math.random() *$('.card').length)
+              
+            for(let i=0;i<1;i++){
+                 
+               if(open1==open2||$('.card').eq(open1).hasClass('finish')||$('.card').eq(open2).hasClass('finish')){
+                   i++;
+               }else{
+                let counta=$('.card').eq(open1).removeClass('close');
+                let countb=$('.card').eq(open2).removeClass('close');
+               
+               }
+               
+           }
+           setTimeout(()=>{
+            $('.card').eq(open1).addClass('close');
+            $('.card').eq(open2).addClass('close');
+            $(this).removeClass('pe'); 
+             },1000)
+         
+            })
+
+           
+
+     })
+
+
+       
+    </script>
+</body>
+</html>
