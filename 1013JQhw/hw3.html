@@ -93,7 +93,6 @@
         transition: all 0.5s;
         float: left;
         /* padding: 5px; */
-        
       }
       .front {
         width: 100%;
@@ -294,6 +293,7 @@
 
       // 點遊戲開始
       $("#btn-start").click(function () {
+        InGame = true;
         // 生成24張
         // 一開始沒有的話才印出來
         if ($(".card").length == 0) {
@@ -313,8 +313,6 @@
         $("#ghostmove2").hide().addClass("pe");
         $("#btn-hint").removeClass("pe");
         $("#game").show();
-
-        inGame = true;
 
         // 延遲0.5s生成4 ghost&印出ghost數量
         setTimeout(() => {
@@ -353,6 +351,7 @@
 
             // 時間結束
             if (timeleft === 0 || $(".finish").length == $(".card").length) {
+              inGame = false;
               clearInterval(gametimer);
               clearInterval(ghostimer);
               $(this).removeClass("pe").parent().siblings().find("td").eq(0).removeClass("pe").css("color", "white");
@@ -394,33 +393,34 @@
           let target = Math.floor(Math.random() * $(".card").length);
           $(".card").eq(target).insertAfter($(".card").eq(i));
         }
+      });
 
-        //  翻牌部分
-        $("#game").on("click", ".card", function () {
-          if ($(".card:not(.close)").length < 2) {
-            $(this).removeClass("close");
+      //  翻牌部分
+      $("#game").on("click", ".card", function () {
+        if (!InGame) return;
+        if ($(".card:not(.close)").length < 2) {
+          $(this).removeClass("close");
+        }
+        // 翻到一樣的
+        if ($(".card:not(.close)").length == 2) {
+          if ($(".card:not(.close)").eq(0).attr("data-card") == $(".card:not(.close)").eq(1).attr("data-card")) {
+            $(".card:not(.close)").animate({ right: "200px" }).fadeTo(500, 0).addClass("finish");
+            const count = $("#ghostarea img[src*='ghost1']").length;
+            const random = Math.floor(Math.random() * count);
+            $("#ghostarea img[src*='ghost1']").eq(random).attr("src", "./images/sugar1.png");
+            score++;
+            ghostcountstext--;
           }
-          // 翻到一樣的
-          if ($(".card:not(.close)").length == 2) {
-            if ($(".card:not(.close)").eq(0).attr("data-card") == $(".card:not(.close)").eq(1).attr("data-card")) {
-              $(".card:not(.close)").animate({ right: "200px" }).fadeTo(500, 0).addClass("finish");
-              const count = $("#ghostarea img[src*='ghost1']").length;
-              const random = Math.floor(Math.random() * count);
-              $("#ghostarea img[src*='ghost1']").eq(random).attr("src", "./images/sugar1.png");
-              score++;
-              ghostcountstext--;
-            }
-          }
+        }
 
-          if ($(".card:not(.close)").length == 2) {
-            setTimeout(() => {
-              $(".card:not(.close)").addClass("close");
-            }, 1000);
-          }
+        if ($(".card:not(.close)").length == 2) {
+          setTimeout(() => {
+            $(".card:not(.close)").addClass("close");
+          }, 1000);
+        }
 
-          $("#score").text(score);
-          $("#ghostcountstext").text(ghostcountstext);
-        });
+        $("#score").text(score);
+        $("#ghostcountstext").text(ghostcountstext);
       });
       // 隨機提示2張
       $("#btn-hint").click(function () {
