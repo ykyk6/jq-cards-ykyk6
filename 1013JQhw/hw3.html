@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -244,7 +244,7 @@
           <br />
           <h3>翻牌遊戲<br />(不給糖就搗蛋)</h3>
           <span>◇遊戲一開始會在右邊配置4個ghost，當翻到<br />兩張一樣的牌時，可將一個ghost變成糖果。</span><br />
-          <span>◇遊戲開始10秒後，每5秒會多生成1個ghost。</span>
+          <span>◇遊戲開始10秒後，每7秒會多生成1個ghost。</span>
           <br />
           <span>◆時間總共70秒，需在時間內將所有ghost變成<br />糖果，否則就輸了！</span>
         </div>
@@ -274,6 +274,7 @@
       // 點規則
       $("#rule").click(function () {
         $("#game").hide();
+        $("#game2").hide();
         $("#ruleText").show();
       });
 
@@ -322,7 +323,7 @@
           }
         }, 500);
 
-        //  第10秒後每5秒生成一ghost
+        //  第10秒後每7秒生成一ghost
         // 紀錄生成數量
         let id = 4;
         ghostcountstext = 4;
@@ -333,8 +334,8 @@
             //   每+1ghost數量就印出來
             ghostcountstext++;
             $("#ghostcountstext").text(ghostcountstext);
-          }, 5000);
-        }, 6000);
+          }, 7000);
+        }, 4000);
 
         //  遊戲開始配置分數&剩餘時間
         score = 0;
@@ -376,7 +377,7 @@
                 $(this).css("backgroundColor", "transparent");
                 $("#game").html("");
                 $("#ghostarea").html("");
-                $("#ghostcountstext").text("");
+                // $("#ghostcountstext").text("");
                 $("#btn-hint").addClass("pe");
                 $("#game2").show();
               }, 1000);
