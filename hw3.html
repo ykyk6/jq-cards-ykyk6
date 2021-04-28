@@ -92,7 +92,6 @@
         transform-style: preserve-3d;
         transition: all 0.5s;
         float: left;
-        /* padding: 5px; */
       }
       .front {
         width: 100%;
@@ -111,7 +110,6 @@
         background-image: url(./card/back.jpg);
         position: absolute;
         transform: rotateY(180deg);
-        z-index: 5;
       }
 
       .card2 {
@@ -121,7 +119,6 @@
         transform-style: preserve-3d;
         transition: all 0.5s;
         float: left;
-        /* padding: 5px; */
       }
 
       .front2 {
@@ -141,7 +138,6 @@
         background-image: url(./card/back.jpg);
         position: absolute;
         transform: rotateY(180deg);
-        z-index: 5;
       }
 
       .close {
@@ -374,7 +370,6 @@
                   });
                 }
 
-                // alert("時間到");
                 $(this).text("開始遊戲");
                 $(this).css("backgroundColor", "transparent");
                 $("#game").html("");
@@ -407,7 +402,7 @@
         // 翻到一樣的
         if ($(".card:not(.close)").length == 2) {
           if ($(".card:not(.close)").eq(0).attr("data-card") == $(".card:not(.close)").eq(1).attr("data-card")) {
-            $(".card:not(.close)").animate({ right: "200px" }).fadeTo(500, 0).addClass("finish");
+            $(".card:not(.close)").animate({ right: "1000px" }).fadeTo(500, 0).addClass("finish");
             const count = $("#ghostarea img[src*='ghost1']").length;
             const random = Math.floor(Math.random() * count);
             $("#ghostarea img[src*='ghost1']").eq(random).attr("src", "./images/sugar1.png");
