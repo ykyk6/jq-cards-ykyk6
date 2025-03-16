@@ -1,4 +1,4 @@
-<!DOCTYPE html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -7,48 +7,53 @@
     <style>
       body {
         background-color: #231815;
+        margin: 0;
+        padding: 0;
       }
       #main {
-        width: 100vw;
-        height: 100vh;
-        margin: auto;
+        display: flex;
+        min-height: 100vh;
+        width: 100%;
       }
       #left {
-        width: 20vw;
-        height: 100vh;
-        float: left;
+        flex: 0 0 20%;
         background-color: #231815;
         background-image: url(./images/background2.png);
         background-repeat: repeat-y;
       }
       #center {
-        margin-left: 20vw;
-        margin-right: 20vw;
-        width: auto;
-        height: 100vh;
-        text-align: center;
-        background-color: 231815;
+        flex: 1;
+        background-color: #231815;
         background-image: url(./images/background.jpg);
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
         position: relative;
-        float: inherit;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
       #right {
-        width: 20vw;
-        height: 100vh;
-        float: right;
+        flex: 0 0 20%;
         background-color: #231815;
         background-image: url(./images/background2.png);
         background-repeat: repeat-y;
+        display: flex;
+        flex-direction: column;
       }
       #ghostarea {
-        height: 75vh;
+        flex: 3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
       }
       #ghosttext {
-        height: 25vh;
-        text-align: center;
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         color: white;
         font-size: 20px;
         position: relative;
@@ -63,35 +68,25 @@
         position: absolute;
         left: 10%;
       }
-      #game {
-        width: 60%;
-        height: 70%;
-        /* float: left; */
-        position: absolute;
-        /* top: 30%;
-        left: 25%; */
-        margin-top: 15%;
-        margin-left: 20%;
-        margin-right: 20%;
-      }
-
+      #game,
       #game2 {
-        width: 60%;
+        width: 80%;
         height: 70%;
-        display: none;
-        position: absolute;
-        margin-top: 15%;
-        margin-left: 20%;
-        margin-right: 20%;
+        position: relative;
+        margin-top: 5%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5%;
+        justify-content: center;
       }
 
-      .card {
-        width: 16.5%;
-        height: 25%;
+      .card,
+      .card2 {
+        width: 16%;
+        height: 24%;
         position: relative;
         transform-style: preserve-3d;
         transition: all 0.5s;
-        float: left;
       }
       .front {
         width: 100%;
@@ -100,6 +95,7 @@
         background-size: contain;
         background-repeat: no-repeat;
         position: absolute;
+        backface-visibility: hidden;
       }
       .back {
         width: 100%;
@@ -110,15 +106,7 @@
         background-image: url(./card/back.jpg);
         position: absolute;
         transform: rotateY(180deg);
-      }
-
-      .card2 {
-        width: 16.5%;
-        height: 25%;
-        position: relative;
-        transform-style: preserve-3d;
-        transition: all 0.5s;
-        float: left;
+        backface-visibility: hidden;
       }
 
       .front2 {
@@ -166,17 +154,11 @@
         background-color: #e95504;
       }
       #ruleText {
-        /* position: absolute; */
         display: none;
-        /* width: 680px;
-        height: 520px; */
         font-size: 35px;
         font-weight: 500;
         color: rgb(7, 6, 6);
         background-color: transparent;
-        /* text-align: center; */
-        /* top: 20%;
-        left: 20%; */
       }
       h3 {
         color: brown;
@@ -196,6 +178,87 @@
       .pe {
         pointer-events: none;
       }
+
+      /* 移動版響應式設計 */
+      @media screen and (max-width: 768px) {
+        #main {
+          flex-direction: column;
+        }
+
+        #left {
+          flex: none;
+          width: 100%;
+          padding: 1rem 0;
+        }
+
+        #center {
+          flex: none;
+          height: 60vh;
+          order: 2;
+        }
+
+        #right {
+          flex: none;
+          width: 100%;
+          min-height: 20vh;
+          order: 1;
+        }
+
+        table {
+          display: flex;
+          justify-content: center;
+          border: none;
+          margin: 0;
+        }
+
+        tr {
+          display: inline-block;
+          margin: 0 5px;
+        }
+
+        td {
+          font-size: 18px;
+          padding: 5px 10px;
+          height: 40px;
+          line-height: 40px;
+        }
+
+        #game,
+        #game2 {
+          width: 95%;
+          height: 85%;
+        }
+
+        .card,
+        .card2 {
+          width: 23%;
+          height: 23%;
+          margin: 1%;
+        }
+
+        #ghostarea {
+          padding: 0.5rem;
+        }
+
+        #ghostarea img {
+          width: 40px;
+          height: 40px;
+        }
+
+        #ghosttext {
+          padding: 0.5rem;
+        }
+
+        #textborder {
+          width: 150px;
+          height: auto;
+          padding: 10px;
+          font-size: 16px;
+          background-color: rgba(35, 24, 21, 0.8);
+          border-radius: 5px;
+          margin: 0 auto;
+        }
+      }
     </style>
   </head>
   <body>
@@ -209,13 +272,21 @@
             <td id="btn-start" class="btn-start2">開始遊戲</td>
           </tr>
           <tr>
+            <td id="btn-pause">暫停遊戲</td>
+          </tr>
+          <tr>
             <td id="btn-hint">提示</td>
           </tr>
           <tr>
             <td>剩餘<span style="color: brown" id="timeleft"></span>秒</td>
           </tr>
           <tr>
-            <td><img src="./images/sugar.png" width="63" height="50" />：<span style="color: brown" id="score"></span></td>
+            <td>
+              <img src="./images/sugar.png" width="63" height="50" />：<span
+                style="color: brown"
+                id="score"
+              ></span>
+            </td>
           </tr>
         </table>
       </div>
@@ -241,10 +312,14 @@
           <br />
           <br />
           <h3>翻牌遊戲<br />(不給糖就搗蛋)</h3>
-          <span>◇遊戲一開始會在右邊配置4個ghost，當翻到<br />兩張一樣的牌時，可將一個ghost變成糖果。</span><br />
+          <span
+            >◇遊戲一開始會在右邊配置4個ghost，當翻到<br />兩張一樣的牌時，可將一個ghost變成糖果。</span
+          ><br />
           <span>◇遊戲開始10秒後，每7秒會多生成1個ghost。</span>
           <br />
-          <span>◆時間總共70秒，需在時間內將所有ghost變成<br />糖果，否則就輸了！</span>
+          <span
+            >◆時間總共70秒，需在時間內將所有ghost變成<br />糖果，否則就輸了！</span
+          >
         </div>
       </div>
     </div>
@@ -258,6 +333,7 @@
       let ghostimer = 0;
       let ghostcountstext = 4;
       let i = 0;
+      let isPaused = false;
 
       // 預設畫面
       $("#ruleText").hide();
@@ -265,9 +341,36 @@
       $("#game").show();
       $("#btn-hint").addClass("pe");
 
+      // 初始生成24張卡片
+      for (i = 0; i < 24; i++) {
+        $("#game").append(`<div class="card close">
+          <div class="back"></div>
+          <div class="front"></div>
+        </div>`);
+      }
+
+      // 初始配置卡片圖案
+      for (let i = 0; i < $(".card").length; i++) {
+        let add = (i % ($(".card").length / 2)) + 1;
+        $(".card")
+          .eq(i)
+          .find(".front")
+          .css("background-image", `url(./card/card${add}.jpg)`);
+        $(".card").eq(i).attr("data-card", add);
+      }
+
+      // 初始隱藏暫停按鈕
+      $("#btn-pause").addClass("pe").css("color", "gray");
+
       // 點擊為橘色
       $("tr").click(function () {
-        $(this).find("td").addClass("active").parent().siblings().find("td").removeClass("active");
+        $(this)
+          .find("td")
+          .addClass("active")
+          .parent()
+          .siblings()
+          .find("td")
+          .removeClass("active");
       });
       // 點規則
       $("#rule").click(function () {
@@ -276,47 +379,75 @@
         $("#ruleText").show();
       });
 
-      // 生成24張
-      for (i = 0; i < 24; i++) {
-        $("#game").append(`<div class="card close">
-             <div class="back"></div>
-               <div class="front"></div>
-                </div> `);
-      }
-      for (i = 0; i < 24; i++) {
-        $("#game2").append(`<div class="card2 close">
-             <div class="back2"></div>
-               <div class="front2"></div>
-                </div> `);
-      }
-
       // 點遊戲開始
       $("#btn-start").click(function () {
+        if (InGame) return;
+
         InGame = true;
-        // 生成24張
-        // 一開始沒有的話才印出來
-        if ($(".card").length == 0) {
+
+        // 重置遊戲狀態
+        clearInterval(gametimer);
+        clearInterval(ghostimer);
+        $("#ghostarea").html("");
+        $("#ghostcountstext").text("");
+
+        // 如果沒有卡片，重新生成
+        if ($(".card").length === 0) {
           for (i = 0; i < 24; i++) {
             $("#game").append(`<div class="card close">
-             <div class="back"></div>
-               <div class="front"></div>
-                </div> `);
+              <div class="back"></div>
+              <div class="front"></div>
+            </div>`);
+          }
+
+          // 初始配置卡片圖案
+          for (let i = 0; i < $(".card").length; i++) {
+            let add = (i % ($(".card").length / 2)) + 1;
+            $(".card")
+              .eq(i)
+              .find(".front")
+              .css("background-image", `url(./card/card${add}.jpg)`);
+            $(".card").eq(i).attr("data-card", add);
           }
         }
 
+        // 重新打亂卡片順序並重置狀態
+        for (let i = 0; i < $(".card").length; i++) {
+          let target = Math.floor(Math.random() * $(".card").length);
+          $(".card").eq(target).insertAfter($(".card").eq(i));
+        }
+
+        // 重置所有卡片狀態
+        $(".card").addClass("close").removeClass("finish checking").css({
+          right: "",
+          opacity: "1",
+        });
+
         $(this).text("遊戲進行中");
-        $(this).addClass("pe").parent().siblings().find("td").eq(0).addClass("pe").css("color", "gray");
-        $(this).css("backgroundColor", " #E95504");
+        $(this)
+          .addClass("pe")
+          .parent()
+          .siblings()
+          .find("td")
+          .eq(0)
+          .addClass("pe")
+          .css("color", "gray");
+        $(this).css("backgroundColor", "#E95504");
         $("#ruleText").hide();
         $("#game2").hide();
         $("#ghostmove2").hide().addClass("pe");
         $("#btn-hint").removeClass("pe");
         $("#game").show();
 
+        // 啟用暫停按鈕
+        $("#btn-pause").removeClass("pe").css("color", "white");
+
         // 延遲0.5s生成4 ghost&印出ghost數量
         setTimeout(() => {
           for (i = 0; i < 4; i++) {
-            $("#ghostarea").append(`<img src="./images/ghost1.png" id="ghost${i}" >`);
+            $("#ghostarea").append(
+              `<img src="./images/ghost1.png" id="ghost${i}" >`
+            );
             $("#ghostcountstext").text(ghostcountstext);
           }
         }, 500);
@@ -327,7 +458,9 @@
         ghostcountstext = 4;
         setTimeout(() => {
           ghostimer = setInterval(() => {
-            $("#ghostarea").append(`<img src="./images/ghost1.png" id="ghost${id}" >`);
+            $("#ghostarea").append(
+              `<img src="./images/ghost1.png" id="ghost${id}" >`
+            );
             id++;
             //   每+1ghost數量就印出來
             ghostcountstext++;
@@ -348,12 +481,18 @@
             timeleft--;
             $("#timeleft").text(timeleft);
 
-            // 時間結束
             if (timeleft === 0 || $(".finish").length == $(".card").length) {
-              inGame = false;
+              InGame = false;
               clearInterval(gametimer);
               clearInterval(ghostimer);
-              $(this).removeClass("pe").parent().siblings().find("td").eq(0).removeClass("pe").css("color", "white");
+              $(this)
+                .removeClass("pe")
+                .parent()
+                .siblings()
+                .find("td")
+                .eq(0)
+                .removeClass("pe")
+                .css("color", "white");
 
               setTimeout(() => {
                 if ($(".finish").length == $(".card").length) {
@@ -372,53 +511,148 @@
 
                 $(this).text("開始遊戲");
                 $(this).css("backgroundColor", "transparent");
-                $("#game").html("");
                 $("#ghostarea").html("");
-                // $("#ghostcountstext").text("");
                 $("#btn-hint").addClass("pe");
                 $("#game2").show();
+
+                // 重置暫停按鈕
+                $("#btn-pause")
+                  .addClass("pe")
+                  .css("color", "gray")
+                  .text("暫停遊戲");
+                isPaused = false;
               }, 1000);
             }
           }, 1000);
         }, 500);
+      });
 
-        //  在卡片正面+圖案&配編號
-        for (let i = 0; i < $(".card").length; i++) {
-          let add = (i % ($(".card").length / 2)) + 1;
-          $(".card").eq(i).find(".front").css("background-image", `url(./card/card${add}.jpg)`);
-          $(".card").eq(i).attr("data-card", add);
+      // 暫停按鈕點擊事件
+      $("#btn-pause").click(function () {
+        if (!InGame) return;
 
-          let target = Math.floor(Math.random() * $(".card").length);
-          $(".card").eq(target).insertAfter($(".card").eq(i));
+        isPaused = !isPaused; // 切換暫停狀態
+
+        if (isPaused) {
+          // 暫停遊戲
+          clearInterval(gametimer); // 暫停計時器
+          clearInterval(ghostimer); // 暫停 ghost 生成
+          $(this).text("恢復遊戲");
+          $(".card").addClass("pe"); // 禁止點擊卡片
+        } else {
+          // 恢復遊戲
+          // 重新啟動計時器
+          gametimer = setInterval(() => {
+            timeleft--;
+            $("#timeleft").text(timeleft);
+
+            if (timeleft === 0 || $(".finish").length == $(".card").length) {
+              InGame = false;
+              clearInterval(gametimer);
+              clearInterval(ghostimer);
+              $(this)
+                .removeClass("pe")
+                .parent()
+                .siblings()
+                .find("td")
+                .eq(0)
+                .removeClass("pe")
+                .css("color", "white");
+
+              setTimeout(() => {
+                if ($(".finish").length == $(".card").length) {
+                  Swal.fire({
+                    imageUrl: "./images/success2.png",
+                    imageHeight: 300,
+                    imageAlt: "clear",
+                  });
+                } else {
+                  Swal.fire({
+                    imageUrl: "./images/lose.png",
+                    imageHeight: 300,
+                    imageAlt: "lose",
+                  });
+                }
+
+                $(this).text("開始遊戲");
+                $(this).css("backgroundColor", "transparent");
+                $("#ghostarea").html("");
+                $("#btn-hint").addClass("pe");
+                $("#game2").show();
+
+                // 重置暫停按鈕
+                $("#btn-pause")
+                  .addClass("pe")
+                  .css("color", "gray")
+                  .text("暫停遊戲");
+                isPaused = false;
+              }, 1000);
+            }
+          }, 1000);
+
+          // 重新啟動 ghost 生成
+          ghostimer = setInterval(() => {
+            if (ghostcountstext >= 10) return;
+            $("#ghostarea").append(
+              `<img src="./images/ghost1.png" id="ghost${id}" >`
+            );
+            id++;
+            ghostcountstext++;
+            $("#ghostcountstext").text(ghostcountstext);
+          }, 7000);
+
+          $(this).text("暫停遊戲");
+          $(".card:not(.finish)").removeClass("pe"); // 恢復卡片點擊
         }
       });
 
-      //  翻牌部分
+      // 翻牌邏輯
       $("#game").on("click", ".card", function () {
-        if (!InGame) return;
-        if ($(".card:not(.close)").length < 2) {
-          $(this).removeClass("close");
-        }
-        // 翻到一樣的
-        if ($(".card:not(.close)").length == 2) {
-          if ($(".card:not(.close)").eq(0).attr("data-card") == $(".card:not(.close)").eq(1).attr("data-card")) {
-            $(".card:not(.close)").animate({ right: "1000px" }).fadeTo(500, 0).addClass("finish");
-            const count = $("#ghostarea img[src*='ghost1']").length;
-            const random = Math.floor(Math.random() * count);
-            $("#ghostarea img[src*='ghost1']").eq(random).attr("src", "./images/sugar1.png");
-            score++;
-            ghostcountstext--;
+        if (!InGame || isPaused) return;
+        if ($(this).hasClass("finish")) return;
+        if ($(this).hasClass("checking")) return;
+        if ($(".card:not(.close):not(.finish)").length >= 2) return;
+
+        $(this).removeClass("close");
+
+        // 檢查是否翻開了兩張卡片
+        if ($(".card:not(.close):not(.finish)").length == 2) {
+          let card1 = $(".card:not(.close):not(.finish)").eq(0);
+          let card2 = $(".card:not(.close):not(.finish)").eq(1);
+
+          // 添加檢查中狀態
+          card1.addClass("checking");
+          card2.addClass("checking");
+
+          // 檢查是否配對
+          if (card1.attr("data-card") === card2.attr("data-card")) {
+            // 配對成功
+            setTimeout(() => {
+              $(".card.checking")
+                .animate({ right: "1000px" })
+                .fadeTo(500, 0)
+                .addClass("finish")
+                .removeClass("checking");
+
+              const count = $("#ghostarea img[src*='ghost1']").length;
+              if (count > 0) {
+                const random = Math.floor(Math.random() * count);
+                $("#ghostarea img[src*='ghost1']")
+                  .eq(random)
+                  .attr("src", "./images/sugar1.png");
+                score++;
+                ghostcountstext--;
+                $("#score").text(score);
+                $("#ghostcountstext").text(ghostcountstext);
+              }
+            }, 500);
+          } else {
+            // 不配對時，延遲後翻回
+            setTimeout(() => {
+              $(".card.checking").addClass("close").removeClass("checking");
+            }, 1000);
           }
         }
-
-        if ($(".card:not(.close)").length == 2) {
-          setTimeout(() => {
-            $(".card:not(.close)").addClass("close");
-          }, 1000);
-        }
-
-        $("#score").text(score);
-        $("#ghostcountstext").text(ghostcountstext);
       });
       // 隨機提示2張
       $("#btn-hint").click(function () {
@@ -427,7 +661,11 @@
         let open2 = Math.floor(Math.random() * $(".card").length);
 
         for (let i = 0; i < 1; i++) {
-          if (open1 == open2 || $(".card").eq(open1).hasClass("finish") || $(".card").eq(open2).hasClass("finish")) {
+          if (
+            open1 == open2 ||
+            $(".card").eq(open1).hasClass("finish") ||
+            $(".card").eq(open2).hasClass("finish")
+          ) {
             i++;
           } else {
             let counta = $(".card").eq(open1).removeClass("close");
